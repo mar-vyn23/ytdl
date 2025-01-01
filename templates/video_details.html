@@ -32,7 +32,8 @@
                         {% for stream in video_data.video_streams %}
                             <li>
                                 <span>Resolution: {{ stream.resolution }}</span>
-                                <a href="{{ url_for('download', stream_id=stream.itag) }}">Download</a>
+                                <a href="{{ url_for('download', stream_id=stream.itag) }}?link={{ request.args.get('link') }}">Download</a>
+
                             </li>
                         {% endfor %}
                     </ul>
@@ -44,7 +45,7 @@
                         {% for stream in video_data.audio_streams %}
                             <li>
                                 <span>Bitrate: {{ stream.abr }}</span>
-                                <a href="{{ url_for('download', stream_id=stream.itag) }}">Download</a>
+                                <a href="{{ url_for('download', stream_id=stream.itag) }}?link={{ request.args.get('link') }}">Download</a>
                             </li>
                         {% endfor %}
                     </ul>

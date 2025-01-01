@@ -73,7 +73,7 @@ def video_details():
 # Download route for handling the download requests
 @app.route("/download/<int:stream_id>")
 def download(stream_id):
-    link = request.args.get("link")
+    link = request.args.get("link")  # Get the link from query string
     if link:
         try:
             yt = YouTube(link, use_oauth=True, allow_oauth_cache=True, on_progress_callback=on_progress)
@@ -101,6 +101,7 @@ def download(stream_id):
         except Exception as e:
             return f"An error occurred: {e}", 500
     return f"Invalid URL or stream ID.", 400
+
 
 
 if __name__ == "__main__":
