@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, send_file
-from pytube import YouTube
+from pytubefix import YouTube
+from pytubefix.cli import on_progress
 import os
 
 # Specify the templates folder explicitly
@@ -12,10 +13,11 @@ def home():
         link = request.form.get("video_link")
         if link:
             try:
-                yt = YouTube(link)
+                yt = YouTube(link, on_progress_callback=on_progress, use_po_token=True)
+                yt_title = yt.title  # Get the video title for feedback
                 stream = yt.streams.get_highest_resolution()
                 download_path = stream.download(output_path="downloads")  # Specify a download folder
-                return send_file(download_path, as_attachment=True)  # Offer the file for download
+                return send_file(download_path, as_attachment=True, download_name=f"{yt_title}.mp4")  # Offer the file for download
             except Exception as e:
                 return f"An error occurred: {e}"
 
