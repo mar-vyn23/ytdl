@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, send_file
 from pytubefix import YouTube
 from pytubefix.cli import on_progress
-import os
+import io
 
 # Specify the templates folder explicitly
 app = Flask(__name__, template_folder="templates")
@@ -18,11 +18,18 @@ def home():
                 yt_title = yt.title  # Get the video title for feedback
                 stream = yt.streams.get_highest_resolution()
 
-                # Specify the download path to store temporarily before sending to the browser
-                download_path = stream.download(output_path="downloads")
-                
-                # Send the file to the browser for download
-                return send_file(download_path, as_attachment=True, download_name=f"{yt_title}.mp4", mimetype="video/mp4")
+                # Create a bytes buffer to stream the file without saving it to the server
+                video_buffer = io.BytesIO()
+                stream.stream_to_buffer(video_buffer)
+                video_buffer.seek(0)
+
+                # Send the file directly to the browser for download
+                return send_file(
+                    video_buffer,
+                    as_attachment=True,
+                    download_name=f"{yt_title}.mp4",
+                    mimetype="video/mp4"
+                )
             except Exception as e:
                 return f"An error occurred: {e}"
 
