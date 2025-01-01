@@ -13,7 +13,8 @@ def home():
         link = request.form.get("video_link")
         if link:
             try:
-                yt = YouTube(link, on_progress_callback=on_progress, use_po_token=True)
+                # Using OAuth with PoToken enabled
+                yt = YouTube(link, use_oauth=True, allow_oauth_cache=True, on_progress_callback=on_progress)
                 yt_title = yt.title  # Get the video title for feedback
                 stream = yt.streams.get_highest_resolution()
                 download_path = stream.download(output_path="downloads")  # Specify a download folder
