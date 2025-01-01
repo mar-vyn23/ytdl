@@ -21,19 +21,34 @@
 
     <main>
         <div class="video-details-container">
-            <h1>{{ video_data.title }}</h1>
-            <img src="{{ video_data.thumbnail }}" alt="Video Thumbnail" class="thumbnail">
-            <div class="qualities-list">
-                <h3>Available Qualities:</h3>
-                <ul>
-                    {% for stream in video_data.streams %}
-                    <li>
-                        <a href="{{ url_for('download', stream_id=stream.itag, link=request.args.get('link')) }}">
-                            {{ stream.resolution }} - {{ stream.mime_type }} - Download
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
+            <div class="left-column">
+                <img class="thumbnail" src="{{ video_data.thumbnail }}" alt="Thumbnail">
+            </div>
+            <div class="right-column">
+                <h2>{{ video_data.title }}</h2>
+                <h3>Video Streams</h3>
+                <div class="qualities-list">
+                    <ul>
+                        {% for stream in video_data.video_streams %}
+                            <li>
+                                <span>Resolution: {{ stream.resolution }}</span>
+                                <a href="{{ url_for('download', stream_id=stream.itag) }}">Download</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <h3>Audio Streams</h3>
+                <div class="qualities-list">
+                    <ul>
+                        {% for stream in video_data.audio_streams %}
+                            <li>
+                                <span>Bitrate: {{ stream.abr }}</span>
+                                <a href="{{ url_for('download', stream_id=stream.itag) }}">Download</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
             </div>
         </div>
     </main>
