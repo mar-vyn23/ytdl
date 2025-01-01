@@ -1,7 +1,7 @@
 /* General reset for margin, padding, and box-sizing */
 * {
-    margin: 5px;
-    padding: 2px;
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
@@ -16,7 +16,7 @@ body {
 /* Header Styling */
 header {
     background-color: #333; /* Dark background color for header */
-    padding: 10px 0; /* Padding for the top and bottom */
+    padding: 15px 0; /* Padding for the top and bottom */
     text-align: center; /* Center the navigation items */
 }
 
@@ -47,22 +47,22 @@ header {
 
 /* Input Field Styling */
 .search-input {
-    padding: 10px; /* Padding inside the input */
-    width: 60%; /* Width of the search bar */
+    padding: 12px; /* Padding inside the input */
+    width: 65%; /* Width of the search bar */
     margin: 20px 0; /* Vertical margin for spacing */
     border: 1px solid #ddd; /* Light gray border */
-    border-radius: 4px; /* Rounded corners */
+    border-radius: 6px; /* Rounded corners */
     font-size: 16px; /* Font size */
 }
 
 /* Button Styling */
 .search-button {
-    padding: 10px 20px; /* Padding for the button */
+    padding: 12px 25px; /* Padding for the button */
     font-size: 16px; /* Font size for the button text */
     background-color: #4CAF50; /* Green background color */
     color: #fff; /* White text */
     border: none; /* No border */
-    border-radius: 4px; /* Rounded corners */
+    border-radius: 6px; /* Rounded corners */
     cursor: pointer; /* Pointer cursor on hover */
 }
 
@@ -73,10 +73,11 @@ header {
 /* Content Section Styling */
 .content {
     text-align: center; /* Center-align the content */
-    margin-top: 30px; /* Top margin for spacing */
+    margin-top: 40px; /* Top margin for spacing */
     max-width: 900px; /* Maximum width of content */
     margin-left: auto; /* Center horizontally */
     margin-right: auto; /* Center horizontally */
+    padding: 20px;
 }
 
 /* Heading and Paragraph Styling */
@@ -96,8 +97,8 @@ footer {
     text-align: center;
     background-color: #333;
     color: #fff;
-    padding: 10px;
-    margin-top: 40px;
+    padding: 15px;
+    margin-top: 50px;
 }
 
 footer p {
