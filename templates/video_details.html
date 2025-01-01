@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <title>{{ video_data.title }} - YouTube Video Downloader</title>
+</head>
+<body>
+    <header>
+        <div class="topnav">
+            <a class="active" href="{{ url_for('home') }}">Home</a>
+            <a href="#news">News</a>
+            <a href="#contact">Contact</a>
+            <a href="#about">About</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="video-details-container">
+            <h1>{{ video_data.title }}</h1>
+            <img src="{{ video_data.thumbnail }}" alt="Video Thumbnail" class="thumbnail">
+            <div class="qualities-list">
+                <h3>Available Qualities:</h3>
+                <ul>
+                    {% for stream in video_data.streams %}
+                    <li>
+                        <a href="{{ url_for('download', stream_id=stream.itag, link=request.args.get('link')) }}">
+                            {{ stream.resolution }} - {{ stream.mime_type }} - Download
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 YTDL. All rights reserved.</p>
+    </footer>
+</body>
+</html>

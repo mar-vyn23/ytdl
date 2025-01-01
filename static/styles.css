@@ -104,3 +104,90 @@ footer {
 footer p {
     margin: 0;
 }
+
+/* Video Details Container Styling */
+.video-details-container {
+    display: flex; /* Use flexbox to create a side-by-side layout */
+    align-items: flex-start; /* Align items to the top */
+    max-width: 900px; /* Max width for the container */
+    margin-left: auto; /* Center horizontally */
+    margin-right: auto; /* Center horizontally */
+    padding: 20px;
+    background-color: #fff; /* White background */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Light shadow for depth */
+    margin-top: 40px; /* Top margin for spacing */
+}
+
+/* Video Title Styling */
+.video-details-container h1 {
+    color: #333; /* Dark text color */
+    font-size: 26px; /* Font size for title */
+    margin-bottom: 20px; /* Space below title */
+    text-align: center;
+    width: 100%; /* Make sure the title spans full width */
+}
+
+/* Video Thumbnail Styling (left side) */
+.thumbnail {
+    width: 250px; /* Fixed width for the thumbnail */
+    height: auto; /* Keep aspect ratio */
+    border-radius: 8px; /* Rounded corners */
+    margin-right: 30px; /* Space between thumbnail and resolutions */
+}
+
+/* Qualities List Styling (right side) */
+.qualities-list {
+    display: flex; /* Make the list a flex container */
+    flex-direction: column; /* Align items in a column */
+    justify-content: flex-start; /* Align items to the top */
+    margin-top: 0;
+    flex-grow: 1; /* Let this section take up the remaining space */
+}
+
+/* Qualities List Header */
+.qualities-list h3 {
+    font-size: 22px; /* Font size for heading */
+    margin-bottom: 15px; /* Bottom margin */
+    color: #333; /* Dark text color */
+    text-align: center; /* Center the heading */
+}
+
+/* Available Quality Item Styling */
+.qualities-list ul {
+    list-style: none; /* Remove bullets */
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+}
+
+.qualities-list li {
+    background-color: #f9f9f9; /* Light background */
+    padding: 15px; /* Padding inside each list item */
+    margin-bottom: 10px; /* Space between items */
+    border-radius: 6px; /* Rounded corners */
+    display: flex;
+    justify-content: space-between; /* Space out content */
+    align-items: center; /* Vertically center items */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+}
+
+/* Resolution and Button Styling */
+.qualities-list li span {
+    font-size: 18px; /* Font size for resolution text */
+    color: #555; /* Slightly lighter text color */
+}
+
+.qualities-list a {
+    padding: 10px 20px; /* Button padding */
+    background-color: #4CAF50; /* Green background for buttons */
+    color: white; /* White text */
+    border-radius: 6px; /* Rounded corners */
+    text-decoration: none; /* Remove underline from link */
+    font-weight: bold; /* Make button text bold */
+    display: inline-block; /* Align the link as a block */
+}
+
+.qualities-list a:hover {
+    background-color: #45a049; /* Slightly darker green on hover */
+    transition: background-color 0.3s; /* Smooth color transition */
+}
