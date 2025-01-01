@@ -17,8 +17,12 @@ def home():
                 yt = YouTube(link, use_oauth=True, allow_oauth_cache=True, on_progress_callback=on_progress)
                 yt_title = yt.title  # Get the video title for feedback
                 stream = yt.streams.get_highest_resolution()
-                download_path = stream.download(output_path="downloads")  # Specify a download folder
-                return send_file(download_path, as_attachment=True, download_name=f"{yt_title}.mp4")  # Offer the file for download
+
+                # Specify the download path to store temporarily before sending to the browser
+                download_path = stream.download(output_path="downloads")
+                
+                # Send the file to the browser for download
+                return send_file(download_path, as_attachment=True, download_name=f"{yt_title}.mp4", mimetype="video/mp4")
             except Exception as e:
                 return f"An error occurred: {e}"
 
