@@ -30,6 +30,7 @@ def home():
 
 
 # Video details route for displaying video info and download options
+# Video details route for displaying video info and download options
 @app.route("/video_details")
 def video_details():
     link = request.args.get("link")
@@ -40,21 +41,30 @@ def video_details():
             yt_thumbnail = yt.thumbnail_url
             available_streams = yt.streams.filter(file_extension="mp4")  # Get all mp4 streams
 
-            # Filter streams based on resolution and order them accordingly
-            filtered_video_streams = sorted(
-                [
-                    {"itag": stream.itag, 
-                     "resolution": stream.resolution, 
-                     "mime_type": stream.mime_type,
-                     "has_audio": not stream.is_adaptive,  # True if it includes audio
-                     }
+            # Track resolutions to ensure only one stream per resolution is included
+            seen_resolutions = set()
 
-                    for stream in available_streams
-                    if stream.resolution in common_resolutions and stream.type == "video"
-                ],
-                key=lambda stream: common_resolutions.index(stream["resolution"])  # Sorting by resolution order
+            # Filter and sort video streams, ensuring unique resolutions
+            filtered_video_streams = []
+            for stream in available_streams:
+                if stream.resolution in common_resolutions and stream.type == "video":
+                    has_audio = not stream.is_adaptive  # True if it includes audio
+                    if stream.resolution not in seen_resolutions:
+                        filtered_video_streams.append({
+                            "itag": stream.itag,
+                            "resolution": stream.resolution,
+                            "mime_type": stream.mime_type,
+                            "has_audio": has_audio,
+                        })
+                        seen_resolutions.add(stream.resolution)  # Mark this resolution as seen
+
+            # Sorting video streams by resolution order
+            filtered_video_streams = sorted(
+                filtered_video_streams,
+                key=lambda stream: common_resolutions.index(stream["resolution"])
             )
 
+            # Filter audio streams
             filtered_audio_streams = [
                 {"itag": stream.itag, "mime_type": stream.mime_type, "abr": stream.abr}
                 for stream in available_streams
