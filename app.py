@@ -21,7 +21,7 @@ def home():
                 yt_title = yt.title  # Get the video title
                 yt_thumbnail = yt.thumbnail_url  # Get the video thumbnail
                 available_streams = yt.streams.filter(progressive=False, file_extension="mp4")  # Filter for mp4 streams
-
+                
                 # Pass video data to the template via URL query string
                 return redirect(url_for('video_details', link=link))
             except Exception as e:
@@ -43,7 +43,12 @@ def video_details():
             # Filter streams based on resolution and order them accordingly
             filtered_video_streams = sorted(
                 [
-                    {"itag": stream.itag, "resolution": stream.resolution, "mime_type": stream.mime_type}
+                    {"itag": stream.itag, 
+                     "resolution": stream.resolution, 
+                     "mime_type": stream.mime_type,
+                     "has_audio": not stream.is_adaptive,  # True if it includes audio
+                     }
+
                     for stream in available_streams
                     if stream.resolution in common_resolutions and stream.type == "video"
                 ],
