@@ -81,26 +81,45 @@ def download(stream_id):
 
             if stream:
                 # Create a temporary directory for the file
-                with tempfile.TemporaryDirectory() as temp_dir:
-                    # Create a temporary file path for the video/audio
-                    temp_file_path = os.path.join(temp_dir, f"{yt.title}_{stream.resolution if stream.resolution else 'audio'}.mp4")
+                temp_dir = tempfile.mkdtemp()  # Persist the temp directory until manual cleanup
+                temp_file_path = os.path.join(temp_dir, f"{yt.title}_{stream.resolution if stream.resolution else 'audio'}.mp4")
 
-                    # Download the stream to the temporary file
-                    stream.download(output_path=temp_dir, filename=os.path.basename(temp_file_path))
+                # Download the stream to the temporary file
+                stream.download(output_path=temp_dir, filename=os.path.basename(temp_file_path))
 
-                    # Send the file to the browser for download
-                    return send_file(
-                        temp_file_path,
-                        as_attachment=True,
-                        download_name=f"{yt.title}_{stream.resolution if stream.resolution else 'audio'}.mp4", 
-                        mimetype="video/mp4"
-                    )
+                # Use a generator to serve the file
+                def generate():
+                    with open(temp_file_path, "rb") as file:
+                        while chunk := file.read(4096):
+                            yield chunk
+
+                response = app.response_class(
+                    generate(),
+                    mimetype="video/mp4",
+                    headers={
+                        "Content-Disposition": f"attachment; filename={yt.title}_{stream.resolution if stream.resolution else 'audio'}.mp4"
+                    },
+                )
+
+                # Cleanup after the response is sent
+                @response.call_on_close
+                def cleanup():
+                    try:
+                        if os.path.exists(temp_file_path):
+                            os.remove(temp_file_path)  # Remove the temporary file
+                        if os.path.exists(temp_dir):
+                            os.rmdir(temp_dir)  # Remove the temporary directory
+                    except Exception as cleanup_error:
+                        print(f"Cleanup error: {cleanup_error}")
+
+                return response
             else:
-                return f"Stream not found.", 404
+                return "Stream not found.", 404
 
         except Exception as e:
             return f"An error occurred: {e}", 500
-    return f"Invalid URL or stream ID.", 400
+    return "Invalid URL or stream ID.", 400
+
 
 
 
