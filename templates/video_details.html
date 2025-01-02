@@ -33,9 +33,9 @@
                         {% for stream in video_data.video_streams %}
                             <li>
                                 <span>Resolution: {{ stream.resolution }}</span>
-                                {% if not stream.has_audio %}
+                                <!-- {% if not stream.has_audio %}
                                     <span style="color: red; font-weight: bold;">(No Sound)</span>
-                                {% endif %}
+                                {% endif %} -->
                                 <a href="{{ url_for('download', stream_id=stream.itag) }}?link={{ request.args.get('link') }}">Download</a>
                             </li>
                         {% endfor %}
