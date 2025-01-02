@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <title>{{ video_data.title }} - YouTube Video Downloader</title>
 </head>
+
 <body>
     <header>
         <div class="topnav">
@@ -26,18 +28,22 @@
             </div>
             <div class="right-column">
                 <h2>{{ video_data.title }}</h2>
-                
+
                 <h3>Video Streams</h3>
                 <div class="qualities-list">
                     <ul>
                         {% for stream in video_data.video_streams %}
-                            <li>
-                                <span>Resolution: {{ stream.resolution }}</span>
-                                {% if not stream.has_audio %}
-                                    <span style="color: red; font-weight: bold;">(No Sound)</span>
-                                {% endif %}
-                                <a href="{{ url_for('download', stream_id=stream.itag) }}?link={{ request.args.get('link') }}">Download</a>
-                            </li>
+                        <li>
+                            <span>Resolution: {{ stream.resolution }}</span>
+                            {% if not stream.has_audio %}
+                            <span style="color: red; font-weight: bold;">(No Sound)</span>
+                            {% else %}
+                            <span style="color: green; font-weight: bold;">(Has Sound)</span>
+                            {% endif %}
+
+                            <a
+                                href="{{ url_for('download', stream_id=stream.itag) }}?link={{ request.args.get('link') }}">Download</a>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -46,10 +52,11 @@
                 <div class="qualities-list">
                     <ul>
                         {% for stream in video_data.audio_streams %}
-                            <li>
-                                <span>Bitrate: {{ stream.abr }}</span>
-                                <a href="{{ url_for('download', stream_id=stream.itag) }}?link={{ request.args.get('link') }}">Download</a>
-                            </li>
+                        <li>
+                            <span>Bitrate: {{ stream.abr }}</span>
+                            <a
+                                href="{{ url_for('download', stream_id=stream.itag) }}?link={{ request.args.get('link') }}">Download</a>
+                        </li>
                         {% endfor %}
                     </ul>
                 </div>
@@ -61,4 +68,5 @@
         <p>&copy; 2025 YTDL. All rights reserved.</p>
     </footer>
 </body>
+
 </html>
