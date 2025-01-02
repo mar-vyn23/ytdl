@@ -28,8 +28,6 @@ def home():
                 return f"An error occurred: {e}"
     return render_template("index.html")
 
-
-# Video details route for displaying video info and download options
 # Video details route for displaying video info and download options
 @app.route("/video_details")
 def video_details():
@@ -42,13 +40,15 @@ def video_details():
             available_streams = yt.streams.filter(file_extension="mp4")  # Get all mp4 streams
 
             # Track resolutions to ensure only one stream per resolution is included
-            seen_resolutions = set()
+            seen_resolutions = {}
 
-            # Filter and sort video streams, ensuring unique resolutions
+            # Filter and sort video streams, ensuring unique resolutions and handling sound
             filtered_video_streams = []
             for stream in available_streams:
                 if stream.resolution in common_resolutions and stream.type == "video":
                     has_audio = not stream.is_adaptive  # True if it includes audio
+                    
+                    # Check if this resolution is already added to the filtered list
                     if stream.resolution not in seen_resolutions:
                         filtered_video_streams.append({
                             "itag": stream.itag,
@@ -56,7 +56,18 @@ def video_details():
                             "mime_type": stream.mime_type,
                             "has_audio": has_audio,
                         })
-                        seen_resolutions.add(stream.resolution)  # Mark this resolution as seen
+                        seen_resolutions[stream.resolution] = has_audio
+                    else:
+                        # If a stream for this resolution already exists, we need to check the sound condition
+                        existing_stream = next(s for s in filtered_video_streams if s["resolution"] == stream.resolution)
+                        # If the existing stream doesn't have sound, and the current one does, replace it
+                        if not existing_stream["has_audio"] and has_audio:
+                            existing_stream.update({
+                                "itag": stream.itag,
+                                "mime_type": stream.mime_type,
+                                "has_audio": has_audio,
+                            })
+                        # If both have no sound, we do nothing, so only one of them is included
 
             # Sorting video streams by resolution order
             filtered_video_streams = sorted(
@@ -83,6 +94,7 @@ def video_details():
         except Exception as e:
             return f"An error occurred: {e}"
     return redirect(url_for('home'))
+
 
 
 # Download route for handling the download requests
