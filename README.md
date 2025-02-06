@@ -52,7 +52,7 @@ The project has the following structure:
     - Method: `GET`, `POST`
     - Description: Displays a form for users to input a YouTube video link. Upon submission, the link is processed, and the user is redirected to the video details page.
 
-    ![Alt text](flaskr/static/1.PNG)
+   ![HomePage](static/1.PNG)
 
     A screenshot of the home page (index.html), showing the input field where users can paste the YouTube video URL.
 
@@ -60,15 +60,12 @@ The project has the following structure:
     - Method: `GET`
     - Description: Displays the video title, thumbnail, and available video streams based on the provided YouTube link. Users can choose a stream to download.
 
-    **Insert Image 2 Here:**  
+   ![Video Details](static/2.PNG) 
     A screenshot of the video details page (video_details.html), showing the video title, thumbnail, and list of available video resolutions for download.
 
 3. **`/download/<int:stream_id>`**:
     - Method: `GET`
     - Description: Handles the download request for the selected video stream (either audio or video) in MP4 format.
-
-    **Insert Image 3 Here:**  
-    A screenshot of the page with a progress bar or a download button that indicates the process of downloading the video/audio.
 
 ### Templates
 
@@ -82,16 +79,13 @@ The project has the following structure:
 3. The user is redirected to the video details page to view and choose the desired resolution.
 4. The user clicks the download button, and the video or audio is downloaded in the selected resolution.
 
-**Insert Image 4 Here:**  
+![Mock Diagram](static/mock.webp) 
 A visual flow diagram or a mockup showing the user flow, from entering the video link to downloading the video.
 
 ## Error Handling
 
 - If an invalid link is provided, the application will display an error message.
 - If an error occurs during the download process, an error message will be shown.
-
-**Insert Image 5 Here:**  
-A screenshot showing how the error message will appear when something goes wrong (e.g., invalid link, no stream available, etc.).
 
 ## Dependencies
 
